@@ -1,22 +1,17 @@
 import React from 'react';
 import {Editor, EditorState,RichUtils,AtomicBlockUtils,CompositeDecorator} from 'draft-js';
 import './App.css'
-
-
-      class RichEditorExample extends React.Component {
+      class FloraEditor extends React.Component {
         constructor(props) {
           super(props);
           this.state = {editorState: EditorState.createEmpty()};
-
           this.focus = () => this.refs.editor.focus();
           this.onChange = (editorState) => this.setState({editorState});
-
           this.handleKeyCommand = (command) => this._handleKeyCommand(command);
           this.onTab = (e) => this._onTab(e);
           this.toggleBlockType = (type) => this._toggleBlockType(type);
           this.toggleInlineStyle = (style) => this._toggleInlineStyle(style);
         }
-
         _handleKeyCommand(command) {
           const {editorState} = this.state;
           const newState = RichUtils.handleKeyCommand(editorState, command);
@@ -26,12 +21,10 @@ import './App.css'
           }
           return false;
         }
-
         _onTab(e) {
           const maxDepth = 4;
           this.onChange(RichUtils.onTab(e, this.state.editorState, maxDepth));
         }
-
         _toggleBlockType(blockType) {
           this.onChange(
             RichUtils.toggleBlockType(
@@ -49,10 +42,8 @@ import './App.css'
             )
           );
         }
-
         render() {
           const {editorState} = this.state;
-
           // If the user changes block type before entering any text, we can
           // either style the placeholder or hide it. Let's just hide it now.
           let className = 'RichEditor-editor';
@@ -62,7 +53,6 @@ import './App.css'
               className += ' RichEditor-hidePlaceholder';
             }
           }
-
           return (
             <div className="RichEditor-root">
               <BlockStyleControls
@@ -90,7 +80,6 @@ import './App.css'
           );
         }
       }
-
       // Custom overrides for "code" style.
       const styleMap = {
         CODE: {
@@ -107,7 +96,6 @@ import './App.css'
           default: return null;
         }
       }
-
       class StyleButton extends React.Component {
         constructor() {
           super();
@@ -122,7 +110,6 @@ import './App.css'
           if (this.props.active) {
             className += ' RichEditor-activeButton';
           }
-
           return (
             <span className={className} onMouseDown={this.onToggle}>
               {this.props.label}
@@ -130,7 +117,6 @@ import './App.css'
           );
         }
       }
-
       const BLOCK_TYPES = [
         {label: 'Blockquote', style: 'blockquote'},
         {label: 'UL', style: 'unordered-list-item'},
@@ -160,7 +146,6 @@ import './App.css'
           </div>
         );
       };
-
       var INLINE_STYLES = [
         {label: 'Bold', style: 'BOLD'},
         {label: 'Italic', style: 'ITALIC'},
@@ -186,5 +171,6 @@ import './App.css'
 
 
 
-export default RichEditorExample;
+export default FloraEditor;
+
 
