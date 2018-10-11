@@ -162,7 +162,7 @@ import decorateComponentWithProps from "decorate-component-with-props";
         }
 
           blockRendererFn(block) {
-             console.log(block.getType());
+
               if (block.getType() === 'atomic') {
                   const contentState = this.state.editorState.getCurrentContent();
                   const entitykey = block.getEntityAt(0);
@@ -299,12 +299,21 @@ let MEDIA_CONTROLS = [
 
 const MediaControls = (props) => {
     let selection = props.editorState.getSelection();
-    let entity = getEntityAtCursor(props.editorState);
     let hasSelection = !selection.isCollapsed();
-    let isCursorOnLink = (entity !== null && entity.type === "LINK");
+    let isCursorOnLink = false;
+
+    if(getEntityAtCursor(props.editorState)) {
+
+        let {entityKey} = getEntityAtCursor(props.editorState);
+
+
+        let contentState = props.editorState.getCurrentContent();
+        let entity = contentState.getEntity(entityKey);
+
+        isCursorOnLink = (entity !== null && entity.type === "LINK");
+    }
     let shouldActiveLinkButton = hasSelection && isCursorOnLink;
     let shouldDisableLinkButton = !hasSelection;
-    console.log(shouldActiveLinkButton);
 
     return (
         <div className="RichEditor-controls">
