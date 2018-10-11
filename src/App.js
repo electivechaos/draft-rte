@@ -38,10 +38,8 @@ class FloraEditor extends React.Component {
     }
 
     _onImageClick() {
-
-        const urlType = 'IMAGE';
         const contentState = this.state.editorState.getCurrentContent();
-        const contentStateWithEntity = contentState.createEntity(urlType, 'IMMUTABLE', {
+        const contentStateWithEntity = contentState.createEntity('IMAGE', 'IMMUTABLE', {
             src: "https://i.ytimg.com/vi/DNcvi7Vpha0/maxresdefault.jpg",
             width: "100px",
             height: "100px"
@@ -58,8 +56,8 @@ class FloraEditor extends React.Component {
         ));
     }
 
-    // Here we get the entity at the current cursor position
-    // If null means no entity is present so we can add the link entity else remove it
+    /*Here we get the entity at the current cursor position
+    If null means no entity is present so we can add the link entity else remove it*/
     _onLinkClick() {
 
         const selection = this.state.editorState.getSelection();
@@ -218,14 +216,14 @@ class FloraEditor extends React.Component {
     }
 }
 
-// Custom overrides for "code" style.
+/*Custom overrides for "code" style.*/
 const styleMap = {
-    // CODE: {
-    //   backgroundColor: 'rgba(0, 0, 0, 0.05)',
-    //   fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
-    //   fontSize: 16,
-    //   padding: 2,
-    // },
+    /*CODE: {
+      backgroundColor: 'rgba(0, 0, 0, 0.05)',
+      fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
+      fontSize: 16,
+      padding: 2,
+    },*/
 };
 
 
