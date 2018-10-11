@@ -52,6 +52,8 @@ import decorateComponentWithProps from "decorate-component-with-props";
               ));
           }
 
+          // Here we get the entity at the current cursor position
+          // If null means no entity is present so we can add the link entity else remove it
           _onLinkClick() {
 
             const selection = this.state.editorState.getSelection();
