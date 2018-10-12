@@ -176,4 +176,16 @@ select {
     cursor: pointer;
     white-space: nowrap;
     vertical-align: bottom;
+.RichEditor-select-drop-down{
+    border: 1px solid gray;
+    border-radius: 5px;
+    text-align: center;
+    height: 32px;
+    margin: 0;
+    padding: 0;
+    vertical-align: text-bottom;
+    background: none;
+    font-size: 20px;
+    outline: none;
+
 }

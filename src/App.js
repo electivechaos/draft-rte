@@ -7,14 +7,14 @@ import {LinkDecorator} from "./decorators/link/decorator.js";
 import {InlineStyleControls} from "./ui/inlineStyleControls.js";
 import {BlockStyleControls} from "./ui/blockStyleControls.js";
 import {MediaControls} from "./ui/mediaControls.js";
-
+import {stateToHTML} from 'draft-js-export-html';
 class FloraEditor extends React.Component {
     constructor(props) {
         super(props);
-        
+
         this.state = {editorState: EditorState.createEmpty(LinkDecorator)};
         this.focus = () => this.refs.editor.focus();
-        this.onChange = (editorState) => this.setState({editorState});
+        this.onChange = (editorState) => this._onChange(editorState);
         this.handleKeyCommand = (command) => this._handleKeyCommand(command);
         this.onTab = (e) => this._onTab(e);
         this.toggleBlockType = (type) => this._toggleBlockType(type);
@@ -25,7 +25,24 @@ class FloraEditor extends React.Component {
         this.blockRendererFn = this.blockRendererFn.bind(this);
         this.getBlockStyle = this.getBlockStyle.bind(this);
     }
+    _onChange(editorState){
+        this.setState({
+            editorState
+        });
 
+        let contentState = editorState.getCurrentContent();
+        // let options = {
+        //     blockRenderers: {
+        //         atomic: (block) => {
+        //
+        //             return '<div>'+()+'</div>';
+        //
+        //
+        //         },
+        //     },
+        // };
+        document.getElementById("htmlString").innerHTML = stateToHTML(contentState, null);
+    }
     _onMediaButtonClick(type) {
         if (type === "image") {
             this.onImageClick();
@@ -166,6 +183,8 @@ class FloraEditor extends React.Component {
                         ref="editor"
                         spellCheck={true}
                     />
+                </div>
+                <div id="htmlString" ref="hah">
                 </div>
             </div>
         );
