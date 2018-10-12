@@ -1,10 +1,10 @@
 import {CompositeDecorator} from "draft-js";
-import {findLinkEntities} from "./strategy.js";
-import {Link} from "./component.js";
+import {findImageEntities} from "./strategy.js";
+import {Image} from "./component.js";
 
-export const LinkDecorator = new CompositeDecorator([
+export const ImageDecorator = new CompositeDecorator([
     {
-        strategy: findLinkEntities,
-        component: Link
+        strategy: findImageEntities,
+        component: Image
     }
 ]);
