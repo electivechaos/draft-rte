@@ -5,7 +5,7 @@ export class MediaButton extends React.Component {
         super();
         this.onButtonClick = (e) => {
             e.preventDefault();
-            this.props.onButtonClick(this.props.mediaType);
+            this.props.onMediaButtonClick(this.props.mediaType);
         };
     }
 

@@ -27,7 +27,7 @@ export const MediaControls = (props) => {
                     active={type.mediaType === "link" && shouldActiveLinkButton}
                     disabled={type.mediaType === "link" && shouldDisableLinkButton}
                     mediaType={type.mediaType}
-                    onButtonClick={props.onButtonClick}
+                    onMediaButtonClick={props.onMediaButtonClick}
                 />
             )}
         </div>

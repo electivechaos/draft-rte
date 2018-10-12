@@ -11,8 +11,7 @@ import {MediaControls} from "./ui/mediaControls.js";
 class FloraEditor extends React.Component {
     constructor(props) {
         super(props);
-
-
+        
         this.state = {editorState: EditorState.createEmpty(LinkDecorator)};
         this.focus = () => this.refs.editor.focus();
         this.onChange = (editorState) => this.setState({editorState});
@@ -20,14 +19,14 @@ class FloraEditor extends React.Component {
         this.onTab = (e) => this._onTab(e);
         this.toggleBlockType = (type) => this._toggleBlockType(type);
         this.toggleInlineStyle = (style) => this._toggleInlineStyle(style);
-        this.onButtonClick = (e) => this._onButtonClick(e);
+        this.onMediaButtonClick = (e) => this._onMediaButtonClick(e);
         this.onImageClick = () => this._onImageClick();
         this.onLinkClick = () => this._onLinkClick();
         this.blockRendererFn = this.blockRendererFn.bind(this);
         this.getBlockStyle = this.getBlockStyle.bind(this);
     }
 
-    _onButtonClick(type) {
+    _onMediaButtonClick(type) {
         if (type === "image") {
             this.onImageClick();
         } else if (type === "link") {
@@ -151,7 +150,7 @@ class FloraEditor extends React.Component {
                 />
                 <MediaControls
                     editorState={editorState}
-                    onButtonClick={this.onButtonClick}
+                    onMediaButtonClick={this.onMediaButtonClick}
                 />
                 <div className={className} onClick={this.focus}>
                     <Editor
