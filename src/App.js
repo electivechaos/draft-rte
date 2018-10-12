@@ -1,22 +1,18 @@
 import React from 'react';
-import {AtomicBlockUtils, Editor, EditorState, RichUtils, CompositeDecorator} from 'draft-js';
+import {AtomicBlockUtils, Editor, EditorState, RichUtils} from 'draft-js';
 import './App.css'
 import getEntityAtCursor from './getEntityAtCursor.js'
 import decorateComponentWithProps from "decorate-component-with-props";
 import {BLOCK_TYPE_HEADINGS}  from "./constants.js"
 import DropDown from "./ui/dropdown";
+import {LinkDecorator} from "./decorators/link/decorator.js";
 
 class FloraEditor extends React.Component {
     constructor(props) {
         super(props);
 
-        const decorator = new CompositeDecorator([
-            {
-                strategy: findLinkEntities,
-                component: Link
-            }
-        ]);
-        this.state = {editorState: EditorState.createEmpty(decorator)};
+
+        this.state = {editorState: EditorState.createEmpty(LinkDecorator)};
         this.focus = () => this.refs.editor.focus();
         this.onChange = (editorState) => this.setState({editorState});
         this.handleKeyCommand = (command) => this._handleKeyCommand(command);
@@ -258,17 +254,10 @@ class StyleButton extends React.Component {
 }
 
 const BLOCK_TYPES = [
-    // {label: 'Blockquote', style: 'blockquote', icon: 'fa fa-quote-left'},
+    // {label: 'Blockquote', style: 'blockquote', icon: 'fa fa-quote-left'}
     {label: 'UL', style: 'unordered-list-item', icon: 'fas fa-list-ul'},
-    {label: 'OL', style: 'ordered-list-item', icon: 'fa fa-list-ol'},
-    // {label: 'H1', style: 'header-one', icon: 'fas fa-heading'},
-    // {label: 'H1', style: 'header-two', icon: 'fas fa-heading'},
-    // {label: 'H2', style: 'header-three', icon: 'fas fa-heading'},
-    // {label: 'H3', style: 'header-four', icon: 'fas fa-heading'},
-    // {label: 'H4', style: 'header-five', icon: 'fas fa-heading'},
-    // {label: 'H5', style: 'header-six', icon: 'fas fa-heading'}
-
-    // {label: 'Code Block', style: 'code-block', icon: 'fas fa-code'},
+    {label: 'OL', style: 'ordered-list-item', icon: 'fa fa-list-ol'}
+    // {label: 'Code Block', style: 'code-block', icon: 'fas fa-code'}
 ];
 
 const BlockStyleControls = (props) => {
@@ -389,34 +378,8 @@ const Image = (props) => {
     return <img src={props.src} alt="Imported" width={props.width} height={props.height}/>;
 };
 
-function findLinkEntities(contentBlock, callback, contentState) {
-    contentBlock.findEntityRanges(
-        (character) => {
-            const entityKey = character.getEntity();
-            return (
-                entityKey !== null &&
-                contentState.getEntity(entityKey).getType() === 'LINK'
-            );
-        },
-        callback
-    );
-}
 
-const Link = (props) => {
-    const {url} = props.contentState.getEntity(props.entityKey).getData();
-    let styles = {
-        link: {
-            color: '#3b5998',
-            textDecoration: 'underline',
-        }
-    };
 
-    return (
-        <a href={url} style={styles.link}>
-            {props.children}
-        </a>
-    );
-};
 
 
 export default FloraEditor;

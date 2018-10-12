@@ -147,3 +147,10 @@
     pointer-events: none;
     color: gray;
 }
+
+.RichEditor-select-drop-down{
+    height: 32px;
+    margin: 0;
+    padding: 0;
+    vertical-align: text-bottom;
+}

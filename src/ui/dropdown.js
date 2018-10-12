@@ -13,10 +13,10 @@ class DropDown extends React.Component {
             className += " RichEditor-activeButton";
         }
         return (
-        <select value={this.props.active} onChange={this.onToggle}>
+        <select className={'RichEditor-select-drop-down'} value={this.props.active} onChange={this.onToggle}>
         <option value=''>Normal</option>
             {this.props.options.map((option) => {
-                return <option key={option.style} className={className} value={option.style}>{option.label}</option>
+                return <option key={option.style} className={this.props.active === option.style ? className : ''} value={option.style}>{option.label}</option>
             })}
         </select>
         )
