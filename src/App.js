@@ -218,22 +218,16 @@ class FloraEditor extends React.Component {
 
 const styleMap = {
     CODE: {
-      backgroundColor: 'rgba(0, 0, 0, 0.05)',
-      fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
-      fontSize: 16,
-      padding: 2,
+        backgroundColor: 'rgba(0, 0, 0, 0.05)',
+        fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
+        fontSize: 16,
+        padding: 2,
     },
 };
-
 
 const Image = (props) => {
     return <img src={props.src} alt="Imported" width={props.width} height={props.height}/>;
 };
-
-
-
-
-
 export default FloraEditor;
 
 
