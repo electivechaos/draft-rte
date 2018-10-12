@@ -1,17 +1,6 @@
 import React from "react";
 
-export  const Link = (props) => {
-    const {url} = props.contentState.getEntity(props.entityKey).getData();
-    let styles = {
-        link: {
-            color: '#3b5998',
-            textDecoration: 'underline',
-        }
-    };
-
-    return (
-        <a href={url} style={styles.link}>
-            {props.children}
-        </a>
-    );
+export const Image = (props) => {
+    const {src,width,height} = props.contentState.getEntity(props.entityKey).getData();
+    return <img src={src} alt="Imported" width={width} height={height}/>;
 };

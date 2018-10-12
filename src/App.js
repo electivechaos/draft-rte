@@ -3,9 +3,10 @@ import {AtomicBlockUtils, Editor, EditorState, RichUtils} from 'draft-js';
 import './App.css'
 import getEntityAtCursor from './getEntityAtCursor.js'
 import decorateComponentWithProps from "decorate-component-with-props";
-import {BLOCK_TYPE_HEADINGS}  from "./constants.js"
-import DropDown from "./ui/dropdown";
 import {LinkDecorator} from "./decorators/link/decorator.js";
+import {InlineStyleControls} from "./ui/inlineStyleControls.js";
+import {BlockStyleControls} from "./ui/blockStyleControls.js";
+import {MediaControls} from "./ui/mediaControls.js";
 
 class FloraEditor extends React.Component {
     constructor(props) {
@@ -152,10 +153,6 @@ class FloraEditor extends React.Component {
                     editorState={editorState}
                     onButtonClick={this.onButtonClick}
                 />
-
-
-
-
                 <div className={className} onClick={this.focus}>
                     <Editor
                         blockRendererFn={this.blockRendererFn}
@@ -218,161 +215,16 @@ class FloraEditor extends React.Component {
     }
 }
 
-/*Custom overrides for "code" style.*/
+
 const styleMap = {
-    /*CODE: {
+    CODE: {
       backgroundColor: 'rgba(0, 0, 0, 0.05)',
       fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
       fontSize: 16,
       padding: 2,
-    },*/
+    },
 };
 
-
-class StyleButton extends React.Component {
-    constructor() {
-        super();
-        this.onToggle = (e) => {
-            e.preventDefault();
-            this.props.onToggle(this.props.style);
-        };
-    }
-
-    render() {
-        let fontSize = {
-            fontSize: "32px"
-        };
-        let className = '';
-        if (this.props.active) {
-            className += ' RichEditor-activeButton';
-        }
-        className += ' ' + this.props.icon;
-        return (
-            <i style={fontSize} title={this.props.label} className={className} onMouseDown={this.onToggle}/>
-        );
-    }
-}
-
-const BLOCK_TYPES = [
-    // {label: 'Blockquote', style: 'blockquote', icon: 'fa fa-quote-left'}
-    {label: 'UL', style: 'unordered-list-item', icon: 'fas fa-list-ul'},
-    {label: 'OL', style: 'ordered-list-item', icon: 'fa fa-list-ol'}
-    // {label: 'Code Block', style: 'code-block', icon: 'fas fa-code'}
-];
-
-const BlockStyleControls = (props) => {
-    const {editorState} = props;
-    const selection = editorState.getSelection();
-    const blockType = editorState
-        .getCurrentContent()
-        .getBlockForKey(selection.getStartKey())
-        .getType();
-
-    return (
-        <div className="RichEditor-controls">
-
-            <DropDown options={BLOCK_TYPE_HEADINGS} active={blockType} onToggle={props.onToggle} />
-
-            {BLOCK_TYPES.map((type) =>
-                <StyleButton
-                    key={type.label}
-                    active={type.style === blockType}
-                    label={type.label}
-                    onToggle={props.onToggle}
-                    style={type.style}
-                    icon={type.icon}
-                />
-            )}
-        </div>
-    );
-};
-let INLINE_STYLES = [
-    {label: 'Bold', style: 'BOLD', icon: 'fas fa-bold'},
-    {label: 'Italic', style: 'ITALIC', icon: 'fas fa-italic'},
-    {label: 'Underline', style: 'UNDERLINE', icon: 'fas fa-underline'},
-];
-
-const InlineStyleControls = (props) => {
-    let currentStyle = props.editorState.getCurrentInlineStyle();
-    return (
-        <div className="RichEditor-controls">
-            {INLINE_STYLES.map(type =>
-                <StyleButton
-                    key={type.label}
-                    active={currentStyle.has(type.style)}
-                    label={type.label}
-                    icon={type.icon}
-                    onToggle={props.onToggle}
-                    style={type.style}
-                />
-            )}
-        </div>
-    );
-};
-
-let MEDIA_CONTROLS = [
-    {label: 'Image', icon: 'far fa-image', mediaType: "image"},
-    {label: 'Link', icon: 'fas fa-link', mediaType: "link"}
-];
-
-const MediaControls = (props) => {
-    let selection = props.editorState.getSelection();
-    let hasSelection = !selection.isCollapsed();
-    let isCursorOnLink = false;
-
-    if (getEntityAtCursor(props.editorState)) {
-        let {entityKey} = getEntityAtCursor(props.editorState);
-        let contentState = props.editorState.getCurrentContent();
-        let entity = contentState.getEntity(entityKey);
-        isCursorOnLink = (entity !== null && entity.type === "LINK");
-    }
-    let shouldActiveLinkButton = hasSelection && isCursorOnLink;
-    let shouldDisableLinkButton = !hasSelection;
-
-    return (
-        <div className="RichEditor-controls">
-            {MEDIA_CONTROLS.map(type =>
-                <MediaButton
-                    key={type.label}
-                    label={type.label}
-                    icon={type.icon}
-                    active={type.mediaType === "link" && shouldActiveLinkButton}
-                    disabled={type.mediaType === "link" && shouldDisableLinkButton}
-                    mediaType={type.mediaType}
-                    onButtonClick={props.onButtonClick}
-                />
-            )}
-        </div>
-    );
-};
-
-class MediaButton extends React.Component {
-    constructor() {
-        super();
-        this.onButtonClick = (e) => {
-            e.preventDefault();
-            this.props.onButtonClick(this.props.mediaType);
-        };
-    }
-
-    render() {
-        let className = '';
-        if (this.props.active && this.props.mediaType === "link") {
-            className += ' RichEditor-activeButton';
-        } else {
-            if (this.props.disabled) {
-                className = className + ' ' + 'RichEditor-disableButton';
-            }
-        }
-        className = className + ' ' + this.props.icon;
-        let fontSize = {
-            fontSize: "32px"
-        };
-        return (
-            <i style={fontSize} title={this.props.label} className={className} onClick={this.onButtonClick}/>
-        );
-    }
-}
 
 const Image = (props) => {
     return <img src={props.src} alt="Imported" width={props.width} height={props.height}/>;
