@@ -34,11 +34,32 @@ class FloraEditor extends React.Component {
         // let options = {
         //     blockRenderers: {
         //         atomic: (block) => {
+        //             console.log(block);
+        //             const type = block.getType();
+        //             const data = block.getData();
+        //             console.log(type);
+        //             console.log(data);
         //
-        //             return '<div>'+()+'</div>';
+        //             return '<div>'+('kk')+'</div>';
         //
         //
-        //         },
+        //         }
+        //     },
+        //
+        //     entityStyleFn: (entity) => {
+        //         const entityType = entity.get('type').toLowerCase();
+        //         if (entityType === 'image') {
+        //             const data = entity.getData();
+        //             return {
+        //                 element: 'img',
+        //                 attributes: {
+        //                     src: data.src,
+        //                 },
+        //                 style: {
+        //                     // Put styles here...
+        //                 },
+        //             };
+        //         }
         //     },
         // };
         document.getElementById("htmlString").innerHTML = stateToHTML(contentState, null);

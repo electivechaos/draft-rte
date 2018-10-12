@@ -138,7 +138,6 @@
 }
 
 .RichEditor-controls i{
-    margin: 0 8px;
     display: inline-block;
     margin: 0 5px 0 0;
     padding: 3px 8px;
@@ -160,10 +159,9 @@
     color: gray;
 }
 
-select {
+.RichEditor-select-drop-down{
     margin: 0 8px;
     display: inline-block;
-    margin: 0 5px 0 0;
     padding: 3px 8px;
     height: 30px;
     line-height: 22px;
@@ -176,16 +174,9 @@ select {
     cursor: pointer;
     white-space: nowrap;
     vertical-align: bottom;
-.RichEditor-select-drop-down{
-    border: 1px solid gray;
-    border-radius: 5px;
-    text-align: center;
-    height: 32px;
+
+}
+figure{
     margin: 0;
     padding: 0;
-    vertical-align: text-bottom;
-    background: none;
-    font-size: 20px;
-    outline: none;
-
 }

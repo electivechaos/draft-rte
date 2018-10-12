@@ -1,4 +1,5 @@
 import React from "react";
+import {fontSizeForBtn} from "../utils/constants";
 
 export class StyleButton extends React.Component {
     constructor() {
@@ -11,7 +12,7 @@ export class StyleButton extends React.Component {
 
     render() {
         let fontSize = {
-            fontSize: "16px"
+            fontSize: fontSizeForBtn
         };
         let className = '';
         if (this.props.active) {

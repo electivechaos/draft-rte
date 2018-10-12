@@ -1,4 +1,6 @@
 import React from "react";
+import {fontSizeForBtn} from "../utils/constants";
+
 
 export class MediaButton extends React.Component {
     constructor() {
@@ -20,7 +22,7 @@ export class MediaButton extends React.Component {
         }
         className = className + ' ' + this.props.icon;
         let fontSize = {
-            fontSize: "16px"
+            fontSize: fontSizeForBtn
         };
         return (
             <i style={fontSize} title={this.props.label} className={className} onClick={this.onButtonClick}/>

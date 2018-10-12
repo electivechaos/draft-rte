@@ -22,3 +22,5 @@ export const  INLINE_STYLES = [
     {label: 'Italic', style: 'ITALIC', icon: 'fas fa-italic'},
     {label: 'Underline', style: 'UNDERLINE', icon: 'fas fa-underline'},
 ];
+
+export  const  fontSizeForBtn = "18px";
