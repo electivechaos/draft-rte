@@ -3,6 +3,8 @@ import {AtomicBlockUtils, Editor, EditorState, RichUtils, CompositeDecorator} fr
 import './App.css'
 import getEntityAtCursor from './getEntityAtCursor.js'
 import decorateComponentWithProps from "decorate-component-with-props";
+import {BLOCK_TYPE_HEADINGS}  from "./constants.js"
+import DropDown from "./ui/dropdown";
 
 class FloraEditor extends React.Component {
     constructor(props) {
@@ -141,18 +143,22 @@ class FloraEditor extends React.Component {
         }
         return (
             <div className="RichEditor-root">
-                <BlockStyleControls
-                    editorState={editorState}
-                    onToggle={this.toggleBlockType}
-                />
+
                 <InlineStyleControls
                     editorState={editorState}
                     onToggle={this.toggleInlineStyle}
+                />
+                <BlockStyleControls
+                    editorState={editorState}
+                    onToggle={this.toggleBlockType}
                 />
                 <MediaControls
                     editorState={editorState}
                     onButtonClick={this.onButtonClick}
                 />
+
+
+
 
                 <div className={className} onClick={this.focus}>
                     <Editor
@@ -252,10 +258,17 @@ class StyleButton extends React.Component {
 }
 
 const BLOCK_TYPES = [
-    {label: 'Blockquote', style: 'blockquote', icon: 'fa fa-quote-left'},
+    // {label: 'Blockquote', style: 'blockquote', icon: 'fa fa-quote-left'},
     {label: 'UL', style: 'unordered-list-item', icon: 'fas fa-list-ul'},
     {label: 'OL', style: 'ordered-list-item', icon: 'fa fa-list-ol'},
-    {label: 'Code Block', style: 'code-block', icon: 'fas fa-code'},
+    // {label: 'H1', style: 'header-one', icon: 'fas fa-heading'},
+    // {label: 'H1', style: 'header-two', icon: 'fas fa-heading'},
+    // {label: 'H2', style: 'header-three', icon: 'fas fa-heading'},
+    // {label: 'H3', style: 'header-four', icon: 'fas fa-heading'},
+    // {label: 'H4', style: 'header-five', icon: 'fas fa-heading'},
+    // {label: 'H5', style: 'header-six', icon: 'fas fa-heading'}
+
+    // {label: 'Code Block', style: 'code-block', icon: 'fas fa-code'},
 ];
 
 const BlockStyleControls = (props) => {
@@ -268,6 +281,9 @@ const BlockStyleControls = (props) => {
 
     return (
         <div className="RichEditor-controls">
+
+            <DropDown options={BLOCK_TYPE_HEADINGS} active={blockType} onToggle={props.onToggle} />
+
             {BLOCK_TYPES.map((type) =>
                 <StyleButton
                     key={type.label}
