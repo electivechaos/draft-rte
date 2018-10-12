@@ -37,7 +37,7 @@
     font-family: 'Georgia', serif;
     font-size: 14px;
     padding: 15px;
-    width: 560px;
+    width: 50%;
     margin: 10px auto;
 }
 
@@ -131,16 +131,28 @@
     display: block;
 }
 
-.DraftEditor-editorContainer .RichEditor-image-container > img {
-    float: left;
-}
+
 
 .DraftEditor-editorContainer .RichEditor-code-block {
     white-space: pre-wrap;
 }
 
 .RichEditor-controls i{
-    margin: 8px;
+    margin: 0 8px;
+    display: inline-block;
+    margin: 0 5px 0 0;
+    padding: 3px 8px;
+    height: 30px;
+    line-height: 22px;
+    box-sizing: border-box;
+    border-radius: 2px;
+    text-decoration: none;
+    font-size: inherit;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.RichEditor-controls i:hover{
+        color: #5890ff;
 }
 .RichEditor-disableButton{
     cursor: not-allowed;
@@ -148,9 +160,20 @@
     color: gray;
 }
 
-.RichEditor-select-drop-down{
-    height: 32px;
-    margin: 0;
-    padding: 0;
-    vertical-align: text-bottom;
+select {
+    margin: 0 8px;
+    display: inline-block;
+    margin: 0 5px 0 0;
+    padding: 3px 8px;
+    height: 30px;
+    line-height: 22px;
+    box-sizing: border-box;
+    background: none #fdfdfd;
+    border: 1px solid #999;
+    border-radius: 2px;
+    text-decoration: none;
+    font-size: inherit;
+    cursor: pointer;
+    white-space: nowrap;
+    vertical-align: bottom;
 }

@@ -144,13 +144,14 @@ class FloraEditor extends React.Component {
                     editorState={editorState}
                     onToggle={this.toggleInlineStyle}
                 />
-                <BlockStyleControls
-                    editorState={editorState}
-                    onToggle={this.toggleBlockType}
-                />
+             
                 <MediaControls
                     editorState={editorState}
                     onMediaButtonClick={this.onMediaButtonClick}
+                />
+               <BlockStyleControls
+                    editorState={editorState}
+                    onToggle={this.toggleBlockType}
                 />
                 <div className={className} onClick={this.focus}>
                     <Editor

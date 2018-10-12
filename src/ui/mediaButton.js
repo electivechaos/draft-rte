@@ -20,7 +20,7 @@ export class MediaButton extends React.Component {
         }
         className = className + ' ' + this.props.icon;
         let fontSize = {
-            fontSize: "32px"
+            fontSize: "16px"
         };
         return (
             <i style={fontSize} title={this.props.label} className={className} onClick={this.onButtonClick}/>

@@ -6,6 +6,10 @@
     "babel-polyfill": "^6.26.0",
     "decorate-component-with-props": "^1.1.0",
     "draft-js": "^0.10.5",
+    "draft-js-focus-plugin": "^2.2.0",
+    "draft-js-image-plugin": "^2.0.6",
+    "draft-js-plugins-editor": "^2.1.1",
+    "draft-js-resizeable-plugin": "^2.0.8",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-scripts": "2.0.4"

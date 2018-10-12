@@ -11,7 +11,7 @@ export class StyleButton extends React.Component {
 
     render() {
         let fontSize = {
-            fontSize: "32px"
+            fontSize: "16px"
         };
         let className = '';
         if (this.props.active) {

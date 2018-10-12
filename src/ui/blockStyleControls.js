@@ -14,7 +14,6 @@ export const BlockStyleControls = (props) => {
     return (
         <div className="RichEditor-controls">
 
-            <DropDown options={BLOCK_TYPE_HEADINGS} active={blockType} onToggle={props.onToggle} />
 
             {BLOCK_TYPES.map((type) =>
                 <StyleButton
@@ -26,6 +25,8 @@ export const BlockStyleControls = (props) => {
                     icon={type.icon}
                 />
             )}
+            <DropDown options={BLOCK_TYPE_HEADINGS} active={blockType} onToggle={props.onToggle} />
+
         </div>
     );
 };
