@@ -1,5 +1,5 @@
 import DropDown from "./dropdown";
-import {BLOCK_TYPE_HEADINGS, BLOCK_TYPES} from "../constants";
+import {BLOCK_TYPE_HEADINGS, BLOCK_TYPES} from "../utils/constants";
 import React from "react";
 import {StyleButton} from "./styleButton.js";
 

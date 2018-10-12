@@ -1,4 +1,4 @@
-import {INLINE_STYLES} from "../constants.js";
+import {INLINE_STYLES} from "../utils/constants.js";
 import React from "react";
 import {StyleButton} from "./styleButton.js";
 

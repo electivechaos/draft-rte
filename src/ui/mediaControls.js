@@ -1,5 +1,5 @@
-import getEntityAtCursor from "../getEntityAtCursor";
-import {MEDIA_CONTROLS} from "../constants";
+import getEntityAtCursor from "../utils/getEntityAtCursor";
+import {MEDIA_CONTROLS} from "../utils/constants";
 import React from "react";
 import {MediaButton} from "./mediaButton.js";
 

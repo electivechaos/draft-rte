@@ -1,7 +1,7 @@
 import React from 'react';
 import {AtomicBlockUtils, Editor, EditorState, RichUtils} from 'draft-js';
 import './App.css'
-import getEntityAtCursor from './getEntityAtCursor.js'
+import getEntityAtCursor from './utils/getEntityAtCursor.js'
 import decorateComponentWithProps from "decorate-component-with-props";
 import {LinkDecorator} from "./decorators/link/decorator.js";
 import {InlineStyleControls} from "./ui/inlineStyleControls.js";
