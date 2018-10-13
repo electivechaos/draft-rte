@@ -23,4 +23,9 @@ export const  INLINE_STYLES = [
     {label: 'Underline', style: 'UNDERLINE', icon: 'fas fa-underline'},
 ];
 
+export const UNDO_REDO_STYLES = [
+    {label: 'Undo', icon: 'fas fa-undo', mediaType: "undo"},
+    {label: 'Redo', icon: 'fas fa-redo', mediaType: "redo"}
+];
+
 export  const  fontSizeForBtn = "18px";

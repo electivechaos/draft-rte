@@ -8,6 +8,8 @@ import {InlineStyleControls} from "./ui/inlineStyleControls.js";
 import {BlockStyleControls} from "./ui/blockStyleControls.js";
 import {MediaControls} from "./ui/mediaControls.js";
 import {stateToHTML} from 'draft-js-export-html';
+import {UndoRedoControls} from "./ui/undoRedoControls";
+
 class FloraEditor extends React.Component {
     constructor(props) {
         super(props);
@@ -24,44 +26,14 @@ class FloraEditor extends React.Component {
         this.onLinkClick = () => this._onLinkClick();
         this.blockRendererFn = this.blockRendererFn.bind(this);
         this.getBlockStyle = this.getBlockStyle.bind(this);
+        this.undo = () => this._undo();
+        this.redo = () => this._redo();
     }
     _onChange(editorState){
         this.setState({
             editorState
         });
-
         let contentState = editorState.getCurrentContent();
-        // let options = {
-        //     blockRenderers: {
-        //         atomic: (block) => {
-        //             console.log(block);
-        //             const type = block.getType();
-        //             const data = block.getData();
-        //             console.log(type);
-        //             console.log(data);
-        //
-        //             return '<div>'+('kk')+'</div>';
-        //
-        //
-        //         }
-        //     },
-        //
-        //     entityStyleFn: (entity) => {
-        //         const entityType = entity.get('type').toLowerCase();
-        //         if (entityType === 'image') {
-        //             const data = entity.getData();
-        //             return {
-        //                 element: 'img',
-        //                 attributes: {
-        //                     src: data.src,
-        //                 },
-        //                 style: {
-        //                     // Put styles here...
-        //                 },
-        //             };
-        //         }
-        //     },
-        // };
         document.getElementById("htmlString").innerHTML = stateToHTML(contentState, null);
     }
     _onMediaButtonClick(type) {
@@ -69,8 +41,25 @@ class FloraEditor extends React.Component {
             this.onImageClick();
         } else if (type === "link") {
             this.onLinkClick();
+        }else if(type === "undo"){
+            this.undo();
+        }else if(type === "redo"){
+            this.redo();
         }
 
+    }
+
+    _undo() {
+
+        this.onChange(
+            EditorState.undo(this.state.editorState)
+        );
+    }
+
+    _redo() {
+        this.onChange(
+            EditorState.redo(this.state.editorState)
+        );
     }
 
     _onImageClick() {
@@ -191,6 +180,9 @@ class FloraEditor extends React.Component {
                     editorState={editorState}
                     onToggle={this.toggleBlockType}
                 />
+                <UndoRedoControls  editorState={editorState}
+                                   onMediaButtonClick={this.onMediaButtonClick}/>
+
                 <div className={className} onClick={this.focus}>
                     <Editor
                         blockRendererFn={this.blockRendererFn}
