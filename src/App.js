@@ -1,5 +1,5 @@
 import React from 'react';
-import {AtomicBlockUtils, Editor, EditorState, RichUtils} from 'draft-js';
+import {AtomicBlockUtils, Editor, EditorState, RichUtils, convertFromRaw} from 'draft-js';
 import './App.css'
 import getEntityAtCursor from './utils/getEntityAtCursor.js'
 import decorateComponentWithProps from "decorate-component-with-props";
@@ -9,8 +9,12 @@ import {BlockStyleControls} from "./ui/blockStyleControls.js";
 import {MediaControls} from "./ui/mediaControls.js";
 import {stateToHTML} from 'draft-js-export-html';
 import {UndoRedoControls} from "./ui/undoRedoControls";
+import {stateFromHTML} from "draft-js-import-html";
 
-class FloraEditor extends React.Component {
+import {stateFromMarkdown} from 'draft-js-import-markdown'
+import EditorValue from "./editorValue";
+
+class RichTextEditor extends React.Component {
     constructor(props) {
         super(props);
 
@@ -29,11 +33,28 @@ class FloraEditor extends React.Component {
         this.undo = () => this._undo();
         this.redo = () => this._redo();
     }
+
+
+    static createEmpty(){
+        let editorState = EditorState.createEmpty(LinkDecorator);
+        return  new EditorValue(editorState);
+    }
+    static createValueFromString(markup, format, decorator = LinkDecorator, options = null) {
+        let contentState = fromString(markup, format, options);
+        let editorState = EditorState.createWithContent(contentState, decorator);
+        return new EditorValue(editorState);
+    }
+
+
     _onChange(editorState){
         this.setState({
             editorState
         });
         let contentState = editorState.getCurrentContent();
+
+        if(this.props.onChange){
+            this.props.onChange(new EditorValue(editorState));
+        }
         document.getElementById("htmlString").innerHTML = stateToHTML(contentState, null);
     }
     _onMediaButtonClick(type) {
@@ -260,6 +281,24 @@ const styleMap = {
 const Image = (props) => {
     return <img src={props.src} alt="Imported" width={props.width} height={props.height}/>;
 };
-export default FloraEditor;
+
+
+function fromString(markup, format, options) {
+    switch (format) {
+        case 'html': {
+            return stateFromHTML(markup, options);
+        }
+        case 'markdown': {
+            return stateFromMarkdown(markup, options);
+        }
+        case 'raw': {
+            return convertFromRaw(JSON.parse(markup));
+        }
+        default: {
+            throw new Error('Format not supported: ' + format);
+        }
+    }
+}
+export default RichTextEditor;
 
 
