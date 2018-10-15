@@ -22,8 +22,9 @@ export default class EditorValue {
         return (this._editorState === editorState) ? this : new EditorValue(editorState);
     }
 
-    toString(format, options = null) {
-        return toString(this.getEditorState(), format, options);
+    toString(format) {
+
+        return toString(this.getEditorState(), format, null);
     }
 
 

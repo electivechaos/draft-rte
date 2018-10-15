@@ -53,8 +53,9 @@ class RichTextEditor extends React.Component {
             editorState
         });
         let contentState = editorState.getCurrentContent();
-
+        console.log(new EditorValue(editorState).toString('html'));
         if(this.props.onChange){
+            console.log(new EditorValue(editorState).toString('html'));
             this.props.onChange(new EditorValue(editorState));
         }
         document.getElementById("htmlString").innerHTML = stateToHTML(contentState, null);
