@@ -9,7 +9,9 @@ export const BLOCK_TYPE_HEADINGS = [
 
 export const MEDIA_CONTROLS = [
     {label: 'Image', icon: 'far fa-image', mediaType: "image"},
-    {label: 'Link', icon: 'fas fa-link', mediaType: "link"}
+    {label: 'Link', icon: 'fas fa-link', mediaType: "link"},
+    {label: 'Video', icon: 'fas fa-video', mediaType: "video"},
+    {label: 'Audio', icon: 'fas fa-file-audio', mediaType: "audio"}
 ];
 
 export const BLOCK_TYPES = [

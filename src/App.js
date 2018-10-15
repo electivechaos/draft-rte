@@ -27,6 +27,8 @@ class RichTextEditor extends React.Component {
         this.toggleInlineStyle = (style) => this._toggleInlineStyle(style);
         this.onMediaButtonClick = (e) => this._onMediaButtonClick(e);
         this.onImageClick = () => this._onImageClick();
+        this.onVideoClick = () => this._onVideoClick();
+        this.onAudioClick = () => this._onAudioClick();
         this.onLinkClick = () => this._onLinkClick();
         this.blockRendererFn = this.blockRendererFn.bind(this);
         this.getBlockStyle = this.getBlockStyle.bind(this);
@@ -60,7 +62,12 @@ class RichTextEditor extends React.Component {
     _onMediaButtonClick(type) {
         if (type === "image") {
             this.onImageClick();
-        } else if (type === "link") {
+        } else if (type === "video") {
+            this.onVideoClick();
+        }
+        else if (type === "audio") {
+            this.onAudioClick();
+        }else if (type === "link") {
             this.onLinkClick();
         }else if(type === "undo"){
             this.undo();
@@ -101,7 +108,47 @@ class RichTextEditor extends React.Component {
             newEditorState.getCurrentContent().getSelectionAfter()
         ));
     }
+    
+    _onVideoClick() {
+   
+            const contentState = this.state.editorState.getCurrentContent();
+        const contentStateWithEntity = contentState.createEntity('VIDEO', 'IMMUTABLE', {
+            src: "https://www.youtube.com/embed/wwNZKfBLAsc",
+            width: "300px",
+            height: "auto"
+        });
+        const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+        const newEditorState = AtomicBlockUtils.insertAtomicBlock(
+            this.state.editorState,
+            entityKey,
+            ' '
+        );
+        this.onChange(EditorState.forceSelection(
+            newEditorState,
+            newEditorState.getCurrentContent().getSelectionAfter()
+        ));
 
+    }
+       _onAudioClick() {
+   
+            const contentState = this.state.editorState.getCurrentContent();
+        const contentStateWithEntity = contentState.createEntity('AUDIO', 'IMMUTABLE', {
+            src: "https://raw.githubusercontent.com/facebook/draft-js/master/examples/draft-0-10-0/media/",
+            width: "300px",
+            height: "auto"
+        });
+        const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+        const newEditorState = AtomicBlockUtils.insertAtomicBlock(
+            this.state.editorState,
+            entityKey,
+            ' '
+        );
+        this.onChange(EditorState.forceSelection(
+            newEditorState,
+            newEditorState.getCurrentContent().getSelectionAfter()
+        ));
+
+    }
     /*Here we get the entity at the current cursor position
     If null means no entity is present so we can add the link entity else remove it*/
     _onLinkClick() {
@@ -241,6 +288,22 @@ class RichTextEditor extends React.Component {
 
                 };
             }
+             else if (type === 'VIDEO' || type === 'video') {
+                const DecoratedVideoComponent = decorateComponentWithProps(Video, entityData);
+                return {
+                    component: DecoratedVideoComponent,
+                    editable: false,
+
+                };
+            }
+                else if (type === 'AUDIO' || type === 'audio') {
+                const DecoratedAudioComponent = decorateComponentWithProps(Audio, entityData);
+                return {
+                    component: DecoratedAudioComponent,
+                    editable: false,
+
+                };
+            }
             return null;
         }
 
@@ -279,7 +342,17 @@ const styleMap = {
 };
 
 const Image = (props) => {
-    return <img src={props.src} alt="Imported" width={props.width} height={props.height}/>;
+    return <img src={props.src} alt="Image" width={props.width} height={props.height}/>;
+};
+const Video = (props) => {
+    return <video controls="true">
+    <source src={props.src} type="video" />
+</video>;
+};
+const Audio = (props) => {
+  return <audio controls="true">
+    <source src={props.src} type="Audio" />
+</audio>;
 };
 
 
