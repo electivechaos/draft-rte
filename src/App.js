@@ -270,7 +270,7 @@ class RichTextEditor extends React.Component {
                         spellCheck={true}
                     />
                 </div>
-                <div id="htmlString" ref="hah">
+                <div id="htmlString" >
                 </div>
             </div>
         );
