@@ -1,6 +1,6 @@
 {
   "name": "cut2it-rte",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "private": false,
   "dependencies": {
     "babel-polyfill": "^6.26.0",

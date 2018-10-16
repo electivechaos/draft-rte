@@ -57,7 +57,7 @@ class RichTextEditor extends React.Component {
             console.log(new EditorValue(editorState).toString('html'));
             this.props.onChange(new EditorValue(editorState));
         }
-        document.getElementById("htmlString").innerHTML = stateToHTML(contentState, null);
+        // document.getElementById("htmlString").innerHTML = stateToHTML(contentState, null);
     }
     _onMediaButtonClick(type) {
         if (type === "image") {
@@ -270,8 +270,8 @@ class RichTextEditor extends React.Component {
                         spellCheck={true}
                     />
                 </div>
-                <div id="htmlString" >
-                </div>
+                {/*<div id="htmlString" >*/}
+                {/*</div>*/}
             </div>
         );
     }
