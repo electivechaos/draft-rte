@@ -6,7 +6,7 @@ import  style from "../App.css"
 export const UndoRedoControls = (props) => {
 
     return (
-        <div className={style.richEditorControls}>
+        <div className={classnames(style.richEditorControls)}>
             {UNDO_REDO_STYLES.map(type =>
                 <MediaButton
                     key={type.label}

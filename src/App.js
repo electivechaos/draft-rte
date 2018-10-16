@@ -333,9 +333,9 @@ class RichTextEditor extends React.Component {
                 return 'richEditorCodeBlock';
             case 'atomic':
                 const contentState = this.state.editorState.getCurrentContent();
-                const entitykey = block.getEntityAt(0);
-                if (!entitykey) return null;
-                const type = contentState.getEntity(entitykey).getType();
+                const entityKey = block.getEntityAt(0);
+                if (!entityKey) return null;
+                const type = contentState.getEntity(entityKey).getType();
                 if (type === 'IMAGE' || type === 'image') {
                     return 'richEditorImageContainer';
                 }
