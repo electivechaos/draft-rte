@@ -17,7 +17,6 @@ import EditorValue from "./editorValue";
 class RichTextEditor extends React.Component {
     constructor(props) {
         super(props);
-
         this.state = {editorState: EditorState.createEmpty(LinkDecorator)};
         this.focus = () => this.refs.editor.focus();
         this.onChange = (editorState) => this._onChange(editorState);
@@ -37,13 +36,13 @@ class RichTextEditor extends React.Component {
     }
 
 
-    static createEmpty(){
+    static createEmptyValue(){
         let editorState = EditorState.createEmpty(LinkDecorator);
         return  new EditorValue(editorState);
     }
-    static createValueFromString(markup, format, decorator = LinkDecorator, options = null) {
-        let contentState = fromString(markup, format, options);
-        let editorState = EditorState.createWithContent(contentState, decorator);
+    static createValueFromString(markup, format) {
+        let contentState = fromString(markup, format, null);
+        let editorState = EditorState.createWithContent(contentState, LinkDecorator);
         return new EditorValue(editorState);
     }
 
@@ -112,7 +111,7 @@ class RichTextEditor extends React.Component {
     
     _onVideoClick() {
    
-            const contentState = this.state.editorState.getCurrentContent();
+        const contentState = this.state.editorState.getCurrentContent();
         const contentStateWithEntity = contentState.createEntity('VIDEO', 'IMMUTABLE', {
             src: "https://www.youtube.com/embed/wwNZKfBLAsc",
             width: "300px",
@@ -134,7 +133,7 @@ class RichTextEditor extends React.Component {
    
             const contentState = this.state.editorState.getCurrentContent();
         const contentStateWithEntity = contentState.createEntity('AUDIO', 'IMMUTABLE', {
-            src: "https://raw.githubusercontent.com/facebook/draft-js/master/examples/draft-0-10-0/media/",
+            src: "http://www.largesound.com/ashborytour/sound/brobob.mp3",
             width: "300px",
             height: "auto"
         });
@@ -223,7 +222,12 @@ class RichTextEditor extends React.Component {
     render() {
 
 
-        const {editorState} = this.state;
+        let {editorState} = this.state;
+
+        const value = this.props.value;
+        if(value){
+            editorState = value.getEditorState();
+        }
         // If the user changes block type before entering any text, we can
         // either style the placeholder or hide it. Let's just hide it now.
         let className = 'RichEditor-editor';
@@ -276,10 +280,10 @@ class RichTextEditor extends React.Component {
 
         if (block.getType() === 'atomic') {
             const contentState = this.state.editorState.getCurrentContent();
-            const entitykey = block.getEntityAt(0);
-            if (!entitykey) return null;
-            const type = contentState.getEntity(entitykey).getType();
-            const entityData = contentState.getEntity(entitykey).getData();
+            const entityKey = block.getEntityAt(0);
+            if (!entityKey) return null;
+            const type = contentState.getEntity(entityKey).getType();
+            const entityData = contentState.getEntity(entityKey).getData();
 
             if (type === 'IMAGE' || type === 'image') {
                 const DecoratedImageComponent = decorateComponentWithProps(Image, entityData);
@@ -290,12 +294,23 @@ class RichTextEditor extends React.Component {
                 };
             }
              else if (type === 'VIDEO' || type === 'video') {
-                const DecoratedVideoComponent = decorateComponentWithProps(Video, entityData);
-                return {
-                    component: DecoratedVideoComponent,
-                    editable: false,
 
-                };
+                 if(entityData.src.indexOf(".mpd") > 0){
+                     const DecoratedVideoComponent = decorateComponentWithProps(Video, entityData);
+                     return {
+                         component: DecoratedVideoComponent,
+                         editable: false,
+
+                     };
+                 }else{
+                     const DecoratedVideoComponent = decorateComponentWithProps(YouTubeVideo, entityData);
+                     return {
+                         component: DecoratedVideoComponent,
+                         editable: false,
+
+                     };
+                 }
+
             }
                 else if (type === 'AUDIO' || type === 'audio') {
                 const DecoratedAudioComponent = decorateComponentWithProps(Audio, entityData);
@@ -346,14 +361,15 @@ const Image = (props) => {
     return <img src={props.src} alt="Image" width={props.width} height={props.height}/>;
 };
 const Video = (props) => {
-    return <video controls="true">
+    return(<video controls={true}>
     <source src={props.src} type="video" />
-</video>;
+    </video>);
+};
+const YouTubeVideo = (props) => {
+    return(<iframe src={props.src}></iframe>);
 };
 const Audio = (props) => {
-  return <audio controls="true">
-    <source src={props.src} type="Audio" />
-</audio>;
+  return (<audio controls={true} src={props.src}></audio>);
 };
 
 
