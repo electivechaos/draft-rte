@@ -1,6 +1,6 @@
 import React from 'react';
 import {AtomicBlockUtils, Editor, EditorState, RichUtils, convertFromRaw} from 'draft-js';
-import './App.css'
+import style from  './App.css'
 import getEntityAtCursor from './utils/getEntityAtCursor.js'
 import decorateComponentWithProps from "decorate-component-with-props";
 import {LinkDecorator} from "./decorators/link/decorator.js";
@@ -18,7 +18,6 @@ class RichTextEditor extends React.Component {
     constructor(props) {
         super(props);
         this.state = {editorState: EditorState.createEmpty(LinkDecorator)};
-        this.focus = () => this.refs.editor.focus();
         this.onChange = (editorState) => this._onChange(editorState);
         this.handleKeyCommand = (command) => this._handleKeyCommand(command);
         this.onTab = (e) => this._onTab(e);
@@ -230,15 +229,15 @@ class RichTextEditor extends React.Component {
         }
         // If the user changes block type before entering any text, we can
         // either style the placeholder or hide it. Let's just hide it now.
-        let className = 'RichEditor-editor';
+        let className = style["richEditorEditor"];
         let contentState = editorState.getCurrentContent();
         if (!contentState.hasText()) {
             if (contentState.getBlockMap().first().getType() !== 'unstyled') {
-                className += ' RichEditor-hidePlaceholder';
+                className += ' richEditorHidePlaceholder';
             }
         }
         return (
-            <div className="RichEditor-root">
+            <div className="richEditorRoot">
 
                 <InlineStyleControls
                     editorState={editorState}
@@ -266,7 +265,7 @@ class RichTextEditor extends React.Component {
                         onChange={this.onChange}
                         onTab={this.onTab}
                         placeholder="Enter your comment here..."
-                        ref="editor"
+                        // ref="editor"
                         spellCheck={true}
                     />
                 </div>
@@ -329,16 +328,16 @@ class RichTextEditor extends React.Component {
     getBlockStyle(block) {
         switch (block.getType()) {
             case 'blockquote':
-                return 'RichEditor-blockquote';
+                return 'richEditorBlockQuote';
             case 'code-block':
-                return 'RichEditor-code-block';
+                return 'richEditorCodeBlock';
             case 'atomic':
                 const contentState = this.state.editorState.getCurrentContent();
                 const entitykey = block.getEntityAt(0);
                 if (!entitykey) return null;
                 const type = contentState.getEntity(entitykey).getType();
                 if (type === 'IMAGE' || type === 'image') {
-                    return 'RichEditor-image-container';
+                    return 'richEditorImageContainer';
                 }
                 break;
             default:
@@ -366,10 +365,10 @@ const Video = (props) => {
     </video>);
 };
 const YouTubeVideo = (props) => {
-    return(<iframe src={props.src}></iframe>);
+    return(<iframe src={props.src}/>);
 };
 const Audio = (props) => {
-  return (<audio controls={true} src={props.src}></audio>);
+  return (<audio controls={true} src={props.src}/>);
 };
 
 

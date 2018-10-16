@@ -1,6 +1,8 @@
 import React from "react";
 import {fontSizeForBtn} from "../utils/constants";
 
+import classnames from "classnames"
+import  style from "../App.css"
 
 export class MediaButton extends React.Component {
     constructor() {
@@ -12,12 +14,14 @@ export class MediaButton extends React.Component {
     }
 
     render() {
-        let className = '';
+        let className = classnames({
+
+        });
         if (this.props.active && this.props.mediaType === "link") {
-            className += ' RichEditor-activeButton';
+            className += ' richEditorActiveButton';
         } else {
             if (this.props.disabled) {
-                className = className + ' ' + 'RichEditor-disableButton';
+                className = className + ' ' + 'richEditorDisableButton';
             }
         }
         className = className + ' ' + this.props.icon;

@@ -2,6 +2,7 @@ import DropDown from "./dropdown";
 import {BLOCK_TYPE_HEADINGS, BLOCK_TYPES} from "../utils/constants";
 import React from "react";
 import {StyleButton} from "./styleButton.js";
+import style from "../App.css";
 
 export const BlockStyleControls = (props) => {
     const {editorState} = props;
@@ -12,7 +13,7 @@ export const BlockStyleControls = (props) => {
         .getType();
 
     return (
-        <div className="RichEditor-controls">
+        <div className={style.richEditorControls}>
 
 
             {BLOCK_TYPES.map((type) =>

@@ -2,6 +2,8 @@ import getEntityAtCursor from "../utils/getEntityAtCursor";
 import {MEDIA_CONTROLS} from "../utils/constants";
 import React from "react";
 import {MediaButton} from "./mediaButton.js";
+import classnames from "classnames"
+import  style from "../App.css"
 
 export const MediaControls = (props) => {
     let selection = props.editorState.getSelection();
@@ -18,7 +20,7 @@ export const MediaControls = (props) => {
     let shouldDisableLinkButton = !hasSelection;
 
     return (
-        <div className="RichEditor-controls">
+        <div className={style.richEditorControls}>
             {MEDIA_CONTROLS.map(type =>
                 <MediaButton
                     key={type.label}

@@ -16,7 +16,7 @@ export class StyleButton extends React.Component {
         };
         let className = '';
         if (this.props.active) {
-            className += ' RichEditor-activeButton';
+            className += ' richEditorActiveButton';
         }
         className += ' ' + this.props.icon;
         return (
