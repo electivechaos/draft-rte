@@ -8,26 +8,26 @@ export const BLOCK_TYPE_HEADINGS = [
 ];
 
 export const MEDIA_CONTROLS = [
-    {label: 'Image', icon: 'far fa-image', mediaType: "image"},
-    {label: 'Link', icon: 'fas fa-link', mediaType: "link"},
-    {label: 'Video', icon: 'fas fa-video', mediaType: "video"},
-    {label: 'Audio', icon: 'fas fa-headphones', mediaType: "audio"}
+    {label: 'Image', icon: 'fa fa-image', mediaType: "image"},
+    {label: 'Link', icon: 'fa fa-link', mediaType: "link"},
+    {label: 'Video', icon: 'fa fa-video', mediaType: "video"},
+    {label: 'Audio', icon: 'fa fa-headphones', mediaType: "audio"}
 ];
 
 export const BLOCK_TYPES = [
-    {label: 'UL', style: 'unordered-list-item', icon: 'fas fa-list-ul'},
+    {label: 'UL', style: 'unordered-list-item', icon: 'fa fa-list-ul'},
     {label: 'OL', style: 'ordered-list-item', icon: 'fa fa-list-ol'}
 ];
 
 export const  INLINE_STYLES = [
-    {label: 'Bold', style: 'BOLD', icon: 'fas fa-bold'},
-    {label: 'Italic', style: 'ITALIC', icon: 'fas fa-italic'},
-    {label: 'Underline', style: 'UNDERLINE', icon: 'fas fa-underline'},
+    {label: 'Bold', style: 'BOLD', icon: 'fa fa-bold'},
+    {label: 'Italic', style: 'ITALIC', icon: 'fa fa-italic'},
+    {label: 'Underline', style: 'UNDERLINE', icon: 'fa fa-underline'},
 ];
 
 export const UNDO_REDO_STYLES = [
-    {label: 'Undo', icon: 'fas fa-undo', mediaType: "undo"},
-    {label: 'Redo', icon: 'fas fa-redo', mediaType: "redo"}
+    {label: 'Undo', icon: 'fa fa-undo', mediaType: "undo"},
+    {label: 'Redo', icon: 'fa fa-redo', mediaType: "redo"}
 ];
 
 export  const  fontSizeForBtn = "18px";
