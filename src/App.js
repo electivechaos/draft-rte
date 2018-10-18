@@ -47,11 +47,12 @@ class RichTextEditor extends React.Component {
     }
 
 
+
     _onChange(editorState){
         this.setState({
             editorState
         });
-        let contentState = editorState.getCurrentContent();
+        // let contentState = editorState.getCurrentContent();
         console.log(new EditorValue(editorState).toString('html'));
         if(this.props.onChange){
             console.log(new EditorValue(editorState).toString('html'));
@@ -61,7 +62,7 @@ class RichTextEditor extends React.Component {
     }
     _onMediaButtonClick(type) {
         if (type === "image") {
-            this.onImageClick();
+            this.props.onMediaButtonClick("Image");
         } else if (type === "video") {
             this.onVideoClick();
         }
@@ -89,11 +90,12 @@ class RichTextEditor extends React.Component {
             EditorState.redo(this.state.editorState)
         );
     }
+    //"https://i.ytimg.com/vi/DNcvi7Vpha0/maxresdefault.jpg"
 
-    _onImageClick() {
+    _onImageClick(imageUrl) {
         const contentState = this.state.editorState.getCurrentContent();
         const contentStateWithEntity = contentState.createEntity('IMAGE', 'IMMUTABLE', {
-            src: "https://i.ytimg.com/vi/DNcvi7Vpha0/maxresdefault.jpg",
+            src: imageUrl,
             width: "100px",
             height: "100px"
         });
