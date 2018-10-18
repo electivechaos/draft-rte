@@ -11,7 +11,8 @@ export const MEDIA_CONTROLS = [
     {label: 'Image', icon: 'fa fa-image', mediaType: "image"},
     {label: 'Link', icon: 'fa fa-link', mediaType: "link"},
     {label: 'Video', icon: 'fa fa-play', mediaType: "video"},
-    {label: 'Audio', icon: 'fa fa-headphones', mediaType: "audio"}
+    {label: 'Audio', icon: 'fa fa-headphones', mediaType: "audio"},
+    {label: 'Document', icon: 'fa fa-file-pdf-o', mediaType: "document"}
 ];
 
 export const BLOCK_TYPES = [

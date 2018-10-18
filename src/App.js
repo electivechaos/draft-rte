@@ -67,11 +67,13 @@ class RichTextEditor extends React.Component {
             this.props.onMediaButtonClick("Video");
         } else if (type === "audio") {
             this.props.onMediaButtonClick("Audio");
-        }else if (type === "link") {
+        } else if (type === "document") {
+            this.props.onMediaButtonClick("Document");
+        } else if (type === "link") {
             this.onLinkClick();
-        }else if(type === "undo"){
+        } else if(type === "undo"){
             this.undo();
-        }else if(type === "redo"){
+        } else if(type === "redo"){
             this.redo();
         }
 
