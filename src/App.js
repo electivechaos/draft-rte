@@ -244,7 +244,6 @@ class RichTextEditor extends React.Component {
                     editorState={editorState}
                     onToggle={this.toggleInlineStyle}
                 />
-             
                 <MediaControls
                     editorState={editorState}
                     onMediaButtonClick={this.onMediaButtonClick}
@@ -253,8 +252,9 @@ class RichTextEditor extends React.Component {
                     editorState={editorState}
                     onToggle={this.toggleBlockType}
                 />
-                <UndoRedoControls  editorState={editorState}
-                                   onMediaButtonClick={this.onMediaButtonClick}/>
+                <UndoRedoControls
+                    editorState={editorState}
+                    onMediaButtonClick={this.onMediaButtonClick}/>
 
                 <div className={className} onClick={this.focus}>
                     <Editor
