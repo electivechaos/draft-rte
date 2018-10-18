@@ -357,7 +357,7 @@ const styleMap = {
 const Image = (props) => {
     const  dataPlayerUrl = props["data-player-url"];
     const  dataType = props["data-type"];
-    return <img src={props.src} alt="Image" data-player-url={dataPlayerUrl} data-type={dataType} width={props.width} height={props.height} />;
+    return <img src={props.src} alt="Thumb for content" data-player-url={dataPlayerUrl} data-type={dataType} width={props.width} height={props.height} />;
 };
 // const Video = (props) => {
 //     return(<video controls={true}>
