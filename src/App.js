@@ -64,10 +64,9 @@ class RichTextEditor extends React.Component {
         if (type === "image") {
             this.props.onMediaButtonClick("Image");
         } else if (type === "video") {
-            this.onVideoClick();
-        }
-        else if (type === "audio") {
-            this.onAudioClick();
+            this.props.onMediaButtonClick("Video");
+        } else if (type === "audio") {
+            this.props.onMediaButtonClick("Audio");
         }else if (type === "link") {
             this.onLinkClick();
         }else if(type === "undo"){
@@ -92,12 +91,14 @@ class RichTextEditor extends React.Component {
     }
     //"https://i.ytimg.com/vi/DNcvi7Vpha0/maxresdefault.jpg"
 
-    _onImageClick(imageUrl) {
+    _onImageClick(imageUrl, playerUrl) {
         const contentState = this.state.editorState.getCurrentContent();
         const contentStateWithEntity = contentState.createEntity('IMAGE', 'IMMUTABLE', {
             src: imageUrl,
             width: "100px",
-            height: "100px"
+            height: "100px",
+            "data-type": "Image",
+            "data-player-url": playerUrl
         });
         const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
         const newEditorState = AtomicBlockUtils.insertAtomicBlock(
@@ -287,7 +288,7 @@ class RichTextEditor extends React.Component {
             const type = contentState.getEntity(entityKey).getType();
             const entityData = contentState.getEntity(entityKey).getData();
 
-            if (type === 'IMAGE' || type === 'image') {
+            if (type === 'IMAGE' || type === 'image' || type === 'AUDIO' || type === 'audio' || type === 'VIDEO' || type === 'video') {
                 const DecoratedImageComponent = decorateComponentWithProps(Image, entityData);
                 return {
                     component: DecoratedImageComponent,
@@ -295,33 +296,33 @@ class RichTextEditor extends React.Component {
 
                 };
             }
-             else if (type === 'VIDEO' || type === 'video') {
-
-                 if(entityData.src.indexOf(".mpd") > 0){
-                     const DecoratedVideoComponent = decorateComponentWithProps(Video, entityData);
-                     return {
-                         component: DecoratedVideoComponent,
-                         editable: false,
-
-                     };
-                 }else{
-                     const DecoratedVideoComponent = decorateComponentWithProps(YouTubeVideo, entityData);
-                     return {
-                         component: DecoratedVideoComponent,
-                         editable: false,
-
-                     };
-                 }
-
-            }
-                else if (type === 'AUDIO' || type === 'audio') {
-                const DecoratedAudioComponent = decorateComponentWithProps(Audio, entityData);
-                return {
-                    component: DecoratedAudioComponent,
-                    editable: false,
-
-                };
-            }
+            //  else if (type === 'VIDEO' || type === 'video') {
+            //
+            //      if(entityData.src.indexOf(".mpd") > 0){
+            //          const DecoratedVideoComponent = decorateComponentWithProps(Video, entityData);
+            //          return {
+            //              component: DecoratedVideoComponent,
+            //              editable: false,
+            //
+            //          };
+            //      }else{
+            //          const DecoratedVideoComponent = decorateComponentWithProps(YouTubeVideo, entityData);
+            //          return {
+            //              component: DecoratedVideoComponent,
+            //              editable: false,
+            //
+            //          };
+            //      }
+            //
+            // }
+            //     else if (type === 'AUDIO' || type === 'audio') {
+            //     const DecoratedAudioComponent = decorateComponentWithProps(Audio, entityData);
+            //     return {
+            //         component: DecoratedAudioComponent,
+            //         editable: false,
+            //
+            //     };
+            // }
             return null;
         }
 
@@ -360,19 +361,21 @@ const styleMap = {
 };
 
 const Image = (props) => {
-    return <img src={props.src} alt="Image" width={props.width} height={props.height}/>;
+    const  dataPlayerUrl = props["data-player-url"];
+    const  dataType = props["data-type"];
+    return <img src={props.src} alt="Image" data-player-url={dataPlayerUrl} data-type={dataType} width={props.width} height={props.height} />;
 };
-const Video = (props) => {
-    return(<video controls={true}>
-    <source src={props.src} type="video" />
-    </video>);
-};
-const YouTubeVideo = (props) => {
-    return(<iframe src={props.src}></iframe>);
-};
-const Audio = (props) => {
-  return (<audio controls={true} src={props.src}></audio>);
-};
+// const Video = (props) => {
+//     return(<video controls={true}>
+//     <source src={props.src} type="video" />
+//     </video>);
+// };
+// const YouTubeVideo = (props) => {
+//     return(<iframe src={props.src}></iframe>);
+// };
+// const Audio = (props) => {
+//   return (<audio controls={true} src={props.src}></audio>);
+// };
 
 
 function fromString(markup, format, options) {
