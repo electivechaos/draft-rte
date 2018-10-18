@@ -1,5 +1,5 @@
 import React from 'react';
-import {AtomicBlockUtils, Editor, EditorState, RichUtils, convertFromRaw} from 'draft-js';
+import {AtomicBlockUtils, convertFromRaw, Editor, EditorState, RichUtils} from 'draft-js';
 import './App.css'
 import getEntityAtCursor from './utils/getEntityAtCursor.js'
 import decorateComponentWithProps from "decorate-component-with-props";
@@ -7,7 +7,6 @@ import {LinkDecorator} from "./decorators/link/decorator.js";
 import {InlineStyleControls} from "./ui/inlineStyleControls.js";
 import {BlockStyleControls} from "./ui/blockStyleControls.js";
 import {MediaControls} from "./ui/mediaControls.js";
-import {stateToHTML} from 'draft-js-export-html';
 import {UndoRedoControls} from "./ui/undoRedoControls";
 import {stateFromHTML} from "draft-js-import-html";
 
@@ -52,13 +51,10 @@ class RichTextEditor extends React.Component {
         this.setState({
             editorState
         });
-        // let contentState = editorState.getCurrentContent();
-        console.log(new EditorValue(editorState).toString('html'));
         if(this.props.onChange){
             console.log(new EditorValue(editorState).toString('html'));
             this.props.onChange(new EditorValue(editorState));
         }
-        // document.getElementById("htmlString").innerHTML = stateToHTML(contentState, null);
     }
     _onMediaButtonClick(type) {
         if (type === "image") {
@@ -78,21 +74,17 @@ class RichTextEditor extends React.Component {
         }
 
     }
-
     _undo() {
 
         this.onChange(
             EditorState.undo(this.state.editorState)
         );
     }
-
     _redo() {
         this.onChange(
             EditorState.redo(this.state.editorState)
         );
     }
-    //"https://i.ytimg.com/vi/DNcvi7Vpha0/maxresdefault.jpg"
-
     _onImageClick(imageUrl, playerUrl) {
         const contentState = this.state.editorState.getCurrentContent();
         const contentStateWithEntity = contentState.createEntity('IMAGE', 'IMMUTABLE', {

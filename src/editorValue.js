@@ -6,7 +6,6 @@ import {stateToMarkdown} from 'draft-js-export-markdown';
 import {stateFromMarkdown} from 'draft-js-import-markdown';
 import {LinkDecorator} from "./decorators/link/decorator";
 
-
 export default class EditorValue {
     _editorState;
 
@@ -22,8 +21,14 @@ export default class EditorValue {
         return (this._editorState === editorState) ? this : new EditorValue(editorState);
     }
 
+    getJsonFromState(){
+        return  convertToRaw(this._editorState.getCurrentContent());
+    }
+    getStateFromJson(rawContent){
+        const rawContentFromDb = convertFromRaw(JSON.parse(rawContent));
+        return EditorState.createWithContent(rawContentFromDb);
+    }
     toString(format) {
-
         return toString(this.getEditorState(), format, null);
     }
 
