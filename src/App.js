@@ -95,13 +95,13 @@ class RichTextEditor extends React.Component {
             EditorState.redo(this.state.editorState)
         );
     }
-    _onImageClick(imageUrl, playerUrl) {
+    _onImageClick(imageUrl, playerUrl,type) {
         const contentState = this.state.editorState.getCurrentContent();
         const contentStateWithEntity = contentState.createEntity('IMAGE', 'IMMUTABLE', {
             src: imageUrl,
             width: "100px",
             height: "100px",
-            "data-type": "Image",
+            "data-type": type,
             "data-player-url": playerUrl
         });
         const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
