@@ -63,7 +63,6 @@ class RichTextEditor extends React.Component {
             editorState
         });
         if(this.props.onChange){
-            console.log(new EditorValue(editorState).toString('html'));
             this.props.onChange(new EditorValue(editorState));
         }
     }
