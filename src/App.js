@@ -44,6 +44,17 @@ class RichTextEditor extends React.Component {
         let editorState = EditorState.createWithContent(contentState, LinkDecorator);
         return new EditorValue(editorState);
     }
+    static createValueFromJson(rawContent) {
+
+        if(rawContent){
+            const rawContentFromDb = convertFromRaw(JSON.parse(rawContent));
+            if(rawContentFromDb){
+                return new EditorValue(EditorState.createWithContent(rawContentFromDb,LinkDecorator));
+            }
+        }
+        return new EditorValue(EditorState.createEmpty(LinkDecorator));
+
+    }
 
 
 

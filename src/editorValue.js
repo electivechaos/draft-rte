@@ -26,7 +26,12 @@ export default class EditorValue {
     }
     getStateFromJson(rawContent){
         const rawContentFromDb = convertFromRaw(JSON.parse(rawContent));
-        return EditorState.createWithContent(rawContentFromDb);
+        if(!rawContentFromDb){
+            return new EditorValue(EditorState.createEmpty(LinkDecorator));
+        }else{
+            return new EditorValue(EditorState.createWithContent(rawContentFromDb,LinkDecorator));
+        }
+
     }
     toString(format) {
         return toString(this.getEditorState(), format, null);

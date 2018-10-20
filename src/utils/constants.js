@@ -28,7 +28,7 @@ export const  INLINE_STYLES = [
 
 export const UNDO_REDO_STYLES = [
     {label: 'Undo', icon: 'fa fa-undo', mediaType: "undo"},
-    {label: 'Redo', icon: 'fa fa-redo', mediaType: "redo"}
+    {label: 'Redo', icon: 'fa fa-repeat', mediaType: "redo"}
 ];
 
 export  const  fontSizeForBtn = "18px";
