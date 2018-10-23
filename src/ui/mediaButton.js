@@ -7,6 +7,7 @@ export class MediaButton extends React.Component {
         super();
         this.onButtonClick = (e) => {
             e.preventDefault();
+            e.stopPropagation();
             this.props.onMediaButtonClick(this.props.mediaType);
         };
     }
@@ -17,7 +18,7 @@ export class MediaButton extends React.Component {
             className += ' RichEditor-activeButton';
         } else {
             if (this.props.disabled) {
-                className = className + ' ' + 'RichEditor-disableButton';
+                className = className + ' RichEditor-disableButton';
             }
         }
         className = className + ' ' + this.props.icon;
