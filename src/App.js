@@ -163,35 +163,40 @@ class RichTextEditor extends React.Component {
     If null means no entity is present so we can add the link entity else remove it*/
     _onLinkClick() {
 
-        const selection = this.state.editorState.getSelection();
+            const selection = this.state.editorState.getSelection();
 
-        let entity = getEntityAtCursor(this.state.editorState);
-        if (!entity) {
-            const contentState = this.state.editorState.getCurrentContent();
-            const contentStateWithEntity = contentState.createEntity(
-                'LINK',
-                'MUTABLE',
-                {url: "www.facebook.com"}
-            );
+            let entity = getEntityAtCursor(this.state.editorState);
+            if (!entity) {
 
-            const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-            const newEditorState = EditorState.set(this.state.editorState, {currentContent: contentStateWithEntity});
-            this.setState({
-                editorState: RichUtils.toggleLink(
-                    newEditorState,
-                    newEditorState.getSelection(),
-                    entityKey
-                )
-            });
-        } else {
-            this.setState({
-                editorState: RichUtils.toggleLink(
-                    this.state.editorState,
-                    selection,
-                    null
-                )
-            });
-        }
+                let linkPromptOutput = prompt("Please enter valid link url", "");
+                if (linkPromptOutput != null && isValidURL(linkPromptOutput)) {
+                    const contentState = this.state.editorState.getCurrentContent();
+                    const contentStateWithEntity = contentState.createEntity(
+                        'LINK',
+                        'MUTABLE',
+                        {url: linkPromptOutput}
+                    );
+
+                    const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+                    const newEditorState = EditorState.set(this.state.editorState, {currentContent: contentStateWithEntity});
+                    this.onChange(
+                        RichUtils.toggleLink(
+                            newEditorState,
+                            newEditorState.getSelection(),
+                            entityKey
+                        )
+                    );
+                }
+            } else {
+                this.onChange(
+                    RichUtils.toggleLink(
+                        this.state.editorState,
+                        selection,
+                        null
+                    )
+                );
+            }
+
 
 
     }
@@ -399,6 +404,24 @@ function fromString(markup, format, options) {
         default: {
             throw new Error('Format not supported: ' + format);
         }
+    }
+}
+
+/**
+ * @return {boolean}
+ */
+function isValidURL(str) {
+    let pattern = new RegExp('^((https?:)?\\/\\/)?'+ // protocol
+        '(?:\\S+(?::\\S*)?@)?' + // authentication
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+        '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+        '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+        '(\\#[-a-z\\d_]*)?$','i'); // fragment locater
+    if (!pattern.test(str)) {
+        return false;
+    } else {
+        return true;
     }
 }
 export default RichTextEditor;
