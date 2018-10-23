@@ -75,6 +75,8 @@ class RichTextEditor extends React.Component {
             this.props.onMediaButtonClick("Audio");
         } else if (type === "document") {
             this.props.onMediaButtonClick("Document");
+        } else if (type === "video-link") {
+            this.props.onMediaButtonClick("Link");
         } else if (type === "link") {
             this.onLinkClick();
         } else if(type === "undo"){
@@ -95,14 +97,15 @@ class RichTextEditor extends React.Component {
             EditorState.redo(this.state.editorState)
         );
     }
-    _onImageClick(imageUrl, playerUrl,type) {
+    _onImageClick(contentUrl, playerUrl,type,viewURI) {
         const contentState = this.state.editorState.getCurrentContent();
         const contentStateWithEntity = contentState.createEntity('IMAGE', 'IMMUTABLE', {
-            src: imageUrl,
+            src: contentUrl,
             width: "100px",
             height: "100px",
             "data-type": type,
-            "data-player-url": playerUrl
+            "data-player-url": playerUrl,
+            "data-view-uri":viewURI
         });
         const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
         const newEditorState = AtomicBlockUtils.insertAtomicBlock(
