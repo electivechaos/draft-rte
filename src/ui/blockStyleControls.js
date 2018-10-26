@@ -1,5 +1,5 @@
 import DropDown from "./dropdown";
-import {BLOCK_TYPE_HEADINGS, BLOCK_TYPES} from "../utils/constants";
+import {RTE_DEFAULT_CONFIG} from "../utils/constants";
 import React from "react";
 import {StyleButton} from "./styleButton.js";
 
@@ -13,9 +13,7 @@ export const BlockStyleControls = (props) => {
 
     return (
         <div className="RichEditor-controls">
-
-
-            {BLOCK_TYPES.map((type) =>
+            {props.rteConfig.BLOCK_TYPES.map((type) =>
                 <StyleButton
                     key={type.label}
                     active={type.style === blockType}
@@ -25,7 +23,7 @@ export const BlockStyleControls = (props) => {
                     icon={type.icon}
                 />
             )}
-            <DropDown options={BLOCK_TYPE_HEADINGS} active={blockType} onToggle={props.onToggle} />
+            <DropDown options={RTE_DEFAULT_CONFIG.BLOCK_TYPE_HEADINGS} active={blockType} onToggle={props.onToggle} />
 
         </div>
     );
