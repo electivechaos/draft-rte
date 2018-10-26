@@ -12,11 +12,13 @@ import {stateFromHTML} from "draft-js-import-html";
 
 import {stateFromMarkdown} from 'draft-js-import-markdown'
 import EditorValue from "./editorValue";
+import {RTE_DEFAULT_CONFIG} from "./utils/constants";
 
 class RichTextEditor extends React.Component {
     constructor(props) {
         super(props);
         this.state = {editorState: EditorState.createEmpty(LinkDecorator)};
+        this.rteConfig = this.props.rteConfig || RTE_DEFAULT_CONFIG;
         this.focus = () => this.refs.editor.focus();
         this.onChange = (editorState) => this._onChange(editorState);
         this.handleKeyCommand = (command) => this._handleKeyCommand(command);
@@ -68,15 +70,25 @@ class RichTextEditor extends React.Component {
     }
     _onMediaButtonClick(type) {
         if (type === "image") {
-            this.props.onMediaButtonClick("Image");
+            if(this.props.onMediaButtonClick){
+                this.props.onMediaButtonClick("Image");
+            }
         } else if (type === "video") {
-            this.props.onMediaButtonClick("Video");
+            if(this.props.onMediaButtonClick) {
+                this.props.onMediaButtonClick("Video");
+            }
         } else if (type === "audio") {
-            this.props.onMediaButtonClick("Audio");
+            if(this.props.onMediaButtonClick) {
+                this.props.onMediaButtonClick("Audio");
+            }
         } else if (type === "document") {
-            this.props.onMediaButtonClick("Document");
+            if(this.props.onMediaButtonClick) {
+                this.props.onMediaButtonClick("Document");
+            }
         } else if (type === "video-link") {
-            this.props.onMediaButtonClick("Link");
+            if(this.props.onMediaButtonClick) {
+                this.props.onMediaButtonClick("Link");
+            }
         } else if (type === "link") {
             this.onLinkClick();
         } else if(type === "undo"){
@@ -256,18 +268,22 @@ class RichTextEditor extends React.Component {
             <div className="RichEditor-root">
 
                 <InlineStyleControls
+                    rteConfig={this.rteConfig}
                     editorState={editorState}
                     onToggle={this.toggleInlineStyle}
                 />
                 <MediaControls
+                    rteConfig={this.rteConfig}
                     editorState={editorState}
                     onMediaButtonClick={this.onMediaButtonClick}
                 />
                <BlockStyleControls
+                   rteConfig={this.rteConfig}
                     editorState={editorState}
                     onToggle={this.toggleBlockType}
                 />
                 <UndoRedoControls
+                    rteConfig={this.rteConfig}
                     editorState={editorState}
                     onMediaButtonClick={this.onMediaButtonClick}/>
 
