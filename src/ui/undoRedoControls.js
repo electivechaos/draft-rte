@@ -1,4 +1,3 @@
-import {UNDO_REDO_STYLES} from "../utils/constants";
 import React from "react";
 import {MediaButton} from "./mediaButton.js";
 
@@ -6,7 +5,7 @@ export const UndoRedoControls = (props) => {
 
     return (
         <div className="RichEditor-controls">
-            {UNDO_REDO_STYLES.map(type =>
+            {props.rteConfig.UNDO_REDO_STYLES.map(type =>
                 <MediaButton
                     key={type.label}
                     label={type.label}

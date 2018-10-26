@@ -1,5 +1,4 @@
 import getEntityAtCursor from "../utils/getEntityAtCursor";
-import {MEDIA_CONTROLS} from "../utils/constants";
 import React from "react";
 import {MediaButton} from "./mediaButton.js";
 
@@ -19,7 +18,7 @@ export const MediaControls = (props) => {
 
     return (
         <div className="RichEditor-controls">
-            {MEDIA_CONTROLS.map(type =>
+            {props.rteConfig.MEDIA_CONTROLS.map(type =>
                 <MediaButton
                     key={type.label}
                     label={type.label}
