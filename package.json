@@ -10,8 +10,6 @@
     "draft-js-image-plugin": "^2.0.6",
     "draft-js-plugins-editor": "^2.1.1",
     "draft-js-resizeable-plugin": "^2.0.8",
-    "react": "^16.5.2",
-    "react-dom": "^16.5.2",
     "react-scripts": "2.0.4",
     "draft-js-export-html": ">=0.6.0",
     "draft-js-export-markdown": ">=0.3.0",
@@ -26,6 +24,10 @@
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "peerDependencies": {
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2"
   },
   "browserslist": [
     ">0.2%",
