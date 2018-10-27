@@ -30,4 +30,4 @@ export const UNDO_REDO_STYLES = [
     {label: 'Redo', icon: 'fa fa-redo', mediaType: "redo"}
 ];
 
-export  const  fontSizeForBtn = "18px";
+export  const  fontSizeForBtn = "14px";
