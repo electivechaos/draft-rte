@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import {AtomicBlockUtils, convertFromRaw, Editor, EditorState, RichUtils} from 'draft-js';
 import './App.css'
 import getEntityAtCursor from './utils/getEntityAtCursor.js'
@@ -58,7 +59,9 @@ class RichTextEditor extends React.Component {
 
     }
 
-
+    componentDidMount(){
+        this._onImageClick("https://images.pexels.com/photos/257360/pexels-photo-257360.jpeg?auto=compress&cs=tinysrgb&h=350","https://images.pexels.com/photos/257360/pexels-photo-257360.jpeg?auto=compress&cs=tinysrgb&h=350","Image","https://images.pexels.com/photos/257360/pexels-photo-257360.jpeg?auto=compress&cs=tinysrgb&h=350");
+    }
 
     _onChange(editorState){
         this.setState({
@@ -130,9 +133,9 @@ class RichTextEditor extends React.Component {
             newEditorState.getCurrentContent().getSelectionAfter()
         ));
     }
-    
+
     _onVideoClick() {
-   
+
         const contentState = this.state.editorState.getCurrentContent();
         const contentStateWithEntity = contentState.createEntity('VIDEO', 'IMMUTABLE', {
             src: "https://www.youtube.com/embed/wwNZKfBLAsc",
@@ -151,9 +154,9 @@ class RichTextEditor extends React.Component {
         ));
 
     }
-       _onAudioClick() {
-   
-            const contentState = this.state.editorState.getCurrentContent();
+    _onAudioClick() {
+
+        const contentState = this.state.editorState.getCurrentContent();
         const contentStateWithEntity = contentState.createEntity('AUDIO', 'IMMUTABLE', {
             src: "http://www.largesound.com/ashborytour/sound/brobob.mp3",
             width: "300px",
@@ -175,39 +178,39 @@ class RichTextEditor extends React.Component {
     If null means no entity is present so we can add the link entity else remove it*/
     _onLinkClick() {
 
-            const selection = this.state.editorState.getSelection();
+        const selection = this.state.editorState.getSelection();
 
-            let entity = getEntityAtCursor(this.state.editorState);
-            if (!entity) {
+        let entity = getEntityAtCursor(this.state.editorState);
+        if (!entity) {
 
-                let linkPromptOutput = prompt("Please enter valid link url", "");
-                if (linkPromptOutput != null && isValidURL(linkPromptOutput)) {
-                    const contentState = this.state.editorState.getCurrentContent();
-                    const contentStateWithEntity = contentState.createEntity(
-                        'LINK',
-                        'MUTABLE',
-                        {url: linkPromptOutput}
-                    );
+            let linkPromptOutput = prompt("Please enter valid link url", "");
+            if (linkPromptOutput != null && isValidURL(linkPromptOutput)) {
+                const contentState = this.state.editorState.getCurrentContent();
+                const contentStateWithEntity = contentState.createEntity(
+                    'LINK',
+                    'MUTABLE',
+                    {url: linkPromptOutput}
+                );
 
-                    const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-                    const newEditorState = EditorState.set(this.state.editorState, {currentContent: contentStateWithEntity});
-                    this.onChange(
-                        RichUtils.toggleLink(
-                            newEditorState,
-                            newEditorState.getSelection(),
-                            entityKey
-                        )
-                    );
-                }
-            } else {
+                const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+                const newEditorState = EditorState.set(this.state.editorState, {currentContent: contentStateWithEntity});
                 this.onChange(
                     RichUtils.toggleLink(
-                        this.state.editorState,
-                        selection,
-                        null
+                        newEditorState,
+                        newEditorState.getSelection(),
+                        entityKey
                     )
                 );
             }
+        } else {
+            this.onChange(
+                RichUtils.toggleLink(
+                    this.state.editorState,
+                    selection,
+                    null
+                )
+            );
+        }
 
 
 
@@ -277,8 +280,8 @@ class RichTextEditor extends React.Component {
                     editorState={editorState}
                     onMediaButtonClick={this.onMediaButtonClick}
                 />
-               <BlockStyleControls
-                   rteConfig={this.rteConfig}
+                <BlockStyleControls
+                    rteConfig={this.rteConfig}
                     editorState={editorState}
                     onToggle={this.toggleBlockType}
                 />
@@ -301,8 +304,6 @@ class RichTextEditor extends React.Component {
                         spellCheck={true}
                     />
                 </div>
-                {/*<div id="htmlString" >*/}
-                {/*</div>*/}
             </div>
         );
     }
@@ -315,6 +316,8 @@ class RichTextEditor extends React.Component {
             if (!entityKey) return null;
             const type = contentState.getEntity(entityKey).getType();
             const entityData = contentState.getEntity(entityKey).getData();
+            entityData.editorRef = this;
+            entityData._onChange =  this.onChange;
 
             if (type === 'IMAGE' || type === 'image' || type === 'AUDIO' || type === 'audio' || type === 'VIDEO' || type === 'video') {
                 const DecoratedImageComponent = decorateComponentWithProps(Image, entityData);
@@ -387,11 +390,146 @@ const styleMap = {
         padding: 2,
     },
 };
+const round = (x, steps) => Math.ceil(x / steps) * steps;
 
-const Image = (props) => {
-    const  dataPlayerUrl = props["data-player-url"];
-    const  dataType = props["data-type"];
-    return <img src={props.src} alt="Thumb for content" data-player-url={dataPlayerUrl} data-type={dataType} width={props.width} height={props.height} />;
+class Image extends Component{
+
+    static defaultProps = {
+        horizontal: 'relative',
+        vertical: true,
+        resizeSteps: 1
+    };
+
+
+    state = {
+        hoverPosition: {},
+        clicked: false,
+        width:this.props.width,
+        height: this.props.height
+    };
+    mouseLeave = () => {
+        if (!this.state.clicked) {
+            this.setState({ hoverPosition: {} });
+        }
+    };
+
+
+    mouseMove = (evt) => {
+        console.log("FUCK oFF mouseMove")
+        const { vertical, horizontal } = this.props;
+
+        const hoverPosition = this.state.hoverPosition;
+        const tolerance = 6;
+        const pane = ReactDOM.findDOMNode(this);
+        const b = pane.getBoundingClientRect();
+        const x = evt.clientX - b.left;
+        const y = evt.clientY - b.top;
+
+        const isTop =  true;
+        const isLeft =  true;
+        const isRight =  true;
+        const isBottom =  true;
+
+        const canResize = isTop || isLeft || isRight || isBottom;
+
+        const newHoverPosition = {
+            isTop, isLeft, isRight, isBottom, canResize
+        };
+        console.log(newHoverPosition);
+        const hasNewHoverPositions = Object.keys(newHoverPosition).filter(
+            (key) => hoverPosition[key] !== newHoverPosition[key]
+        );
+
+        if (hasNewHoverPositions.length) {
+            this.setState({ hoverPosition: newHoverPosition });
+        }
+    }
+
+    mouseDown = (event) => {
+        console.log("FUCK oFF mouseDown")
+        if (!this.state.hoverPosition.canResize) {
+            return;
+        }
+
+        event.preventDefault();
+        const { resizeSteps, vertical, horizontal } = this.props;
+        const { hoverPosition } = this.state;
+        const { isTop, isLeft, isRight, isBottom } = hoverPosition;
+        console.log(hoverPosition);
+        const pane = ReactDOM.findDOMNode(this);
+        const startX = event.clientX;
+        const startY = event.clientY;
+        const startWidth = parseInt(document.defaultView.getComputedStyle(pane).width, 10);
+        const startHeight = parseInt(document.defaultView.getComputedStyle(pane).height, 10);
+
+        // Do the actual drag operation
+        const doDrag = (dragEvent) => {
+            let width = startWidth + (isLeft ? startX - dragEvent.clientX : dragEvent.clientX - startX);
+            let height = (startHeight + dragEvent.clientY) - startY;
+
+            const editorComp = this.props.editorRef;
+            // this keeps backwards-compatibility with react 15
+            const editorNode = editorComp.refs.editor ? editorComp.refs.editor : editorComp.editor;
+
+            width = Math.min(editorNode.clientWidth, width);
+            height = Math.min(editorNode.clientHeight, height);
+
+            const widthPerc = (100 / editorNode.clientWidth) * width;
+            const heightPerc = (100 / editorNode.clientHeight) * height;
+
+            const newState = {};
+            if ((isLeft || isRight) && horizontal === 'relative') {
+                newState.width = resizeSteps ? round(widthPerc, resizeSteps) : widthPerc;
+            } else if ((isLeft || isRight) && horizontal === 'absolute') {
+                newState.width = resizeSteps ? round(width, resizeSteps) : width;
+            }
+
+            if ((isTop || isBottom) && vertical === 'relative') {
+                newState.height = resizeSteps ? round(heightPerc, resizeSteps) : heightPerc;
+            } else if ((isTop || isBottom) && vertical === 'absolute') {
+                newState.height = resizeSteps ? round(height, resizeSteps) : height;
+            }
+
+            dragEvent.preventDefault();
+
+            this.setState(newState);
+            this.setEntityData(this.props.block,newState);
+        };
+
+        // Finished dragging
+        const stopDrag = () => {
+            // TODO clean up event listeners
+            document.removeEventListener('mousemove', doDrag, false);
+            document.removeEventListener('mouseup', stopDrag, false);
+
+            const { width, height } = this.state;
+            this.setState({ clicked: false });
+            this.setEntityData(this.props.block,{ width, height });
+        }
+
+        // TODO clean up event listeners
+        document.addEventListener('mousemove', doDrag, false);
+        document.addEventListener('mouseup', stopDrag, false);
+
+        this.setState({ clicked: true });
+        console.log("FUCK oFF ")
+    };
+    setEntityData = (contentBlock,data) =>{
+        const entityKey = contentBlock.getEntityAt(0);
+        if (entityKey) {
+            const editorState = this.props.editorRef.state.editorState;
+            const contentState = editorState.getCurrentContent();
+            contentState.mergeEntityData(entityKey, { ...data });
+            this.props._onChange(EditorState.forceSelection(editorState, editorState.getSelection()));
+        }
+    }
+
+
+    render(){
+        const  dataPlayerUrl = this.props["data-player-url"];
+        const  dataType = this.props["data-type"];
+        return <img style={{cursor:"nesw-resize"}} onMouseDown = {this.mouseDown} onMouseMove={this.mouseMove} onMouseLeave={this.mouseLeave} src={this.props.src} alt="Thumb for content" data-player-url={dataPlayerUrl} data-type={dataType} width={this.props.width} height={this.props.height} />;
+    }
 };
 // const Video = (props) => {
 //     return(<video controls={true}>
