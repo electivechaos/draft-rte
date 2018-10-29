@@ -81,7 +81,7 @@ class RichTextEditor extends React.Component {
     }
     _onMediaButtonClick(type) {
         if (type === "image") {
-            this._onImageClick("https://images.pexels.com/photos/257360/pexels-photo-257360.jpeg?auto=compress&cs=tinysrgb&h=350","https://images.pexels.com/photos/257360/pexels-photo-257360.jpeg?auto=compress&cs=tinysrgb&h=350","Image","https://images.pexels.com/photos/257360/pexels-photo-257360.jpeg?auto=compress&cs=tinysrgb&h=350");
+            // this._onImageClick("https://images.pexels.com/photos/257360/pexels-photo-257360.jpeg?auto=compress&cs=tinysrgb&h=350","https://images.pexels.com/photos/257360/pexels-photo-257360.jpeg?auto=compress&cs=tinysrgb&h=350","Image","https://images.pexels.com/photos/257360/pexels-photo-257360.jpeg?auto=compress&cs=tinysrgb&h=350");
             if(this.props.onMediaButtonClick){
                 this.props.onMediaButtonClick("Image");
             }
